@@ -1,9 +1,7 @@
 package ru.techpark.homework1;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity implements Fragment1.ReportListener {
@@ -15,22 +13,13 @@ public class MainActivity extends AppCompatActivity implements Fragment1.ReportL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState != null)
-            fragment1 = new Fragment1(savedInstanceState.getInt(Fragment1.SIZE));
-        else
-            fragment1 = new Fragment1();
+        fragment1 = new Fragment1();
         fragment2 = new Fragment2();
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment1)
                 .commit();
-    }
-
-    @Override
-    protected void onSaveInstanceState(@NonNull Bundle outState) {
-        outState.putInt(Fragment1.SIZE, fragment1.getAdapter().mData.size());
-        super.onSaveInstanceState(outState);
     }
 
     @Override
