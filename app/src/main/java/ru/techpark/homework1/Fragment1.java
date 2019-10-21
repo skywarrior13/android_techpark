@@ -30,19 +30,7 @@ public class Fragment1 extends Fragment {
 
     private static int SPAN_COUNT_PORTRAIT = 3;
     private static int SPAN_COUNT_LANDSCAPE = 4;
-
-    static final String SIZE = "SIZE";
-
-    public Fragment1() {
-        super();
-        adapter = new MyDataAdapter(DataSource.getInstance().getData());
-    }
-
-    Fragment1(int size) {
-        this();
-        DataSource.getInstance().setSize(size);
-        adapter.notifyDataSetChanged();
-    }
+    private static final String SIZE = "SIZE";
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -53,10 +41,12 @@ public class Fragment1 extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
+        adapter = new MyDataAdapter(DataSource.getInstance().getData());
 
-    MyDataAdapter getAdapter() {
-        return adapter;
+        if (savedInstanceState != null) {
+            DataSource.getInstance().setSize(savedInstanceState.getInt(SIZE));
+            adapter.notifyDataSetChanged();
+        }
     }
 
     @Nullable
@@ -104,11 +94,11 @@ public class Fragment1 extends Fragment {
             changeSpanCount(SPAN_COUNT_PORTRAIT);
     }
 
-//    @Override
-//    public void onSaveInstanceState(@NonNull Bundle outState) {
-//        super.onSaveInstanceState(outState);
-//        outState.putInt(Fragment1.SIZE, adapter.mData.size());
-//    }
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(SIZE, adapter.getItemCount());
+    }
 
     @Override
     public void onDetach() {
@@ -122,7 +112,6 @@ public class Fragment1 extends Fragment {
     }
 
     class MyDataAdapter extends RecyclerView.Adapter<MyViewHolder> {
-
         final int NUMBER_TYPE = 0;
         List<DataSource.MyData> mData;
 
@@ -162,7 +151,6 @@ public class Fragment1 extends Fragment {
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-
         private final TextView mNumber;
 
         MyViewHolder(@NonNull View itemView) {
