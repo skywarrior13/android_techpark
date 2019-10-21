@@ -15,6 +15,9 @@ import java.util.Locale;
 public class Fragment2 extends Fragment {
     private TextView mNumber;
 
+    final static String NUMBER = "NUMBER";
+    final static String COLOR = "COLOR";
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +34,8 @@ public class Fragment2 extends Fragment {
         mNumber = view.findViewById(R.id.fragment2_number);
 
         if (getArguments() != null) {
-            mNumber.setText(String.format(Locale.ENGLISH, "%d", getArguments().getInt("NUMBER")));
-            mNumber.setTextColor(getArguments().getInt("COLOR"));
+            mNumber.setText(String.format(Locale.ENGLISH, "%d", getArguments().getInt(NUMBER)));
+            mNumber.setTextColor(getArguments().getInt(COLOR));
         }
     }
 }

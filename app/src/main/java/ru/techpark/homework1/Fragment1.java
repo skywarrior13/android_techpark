@@ -28,6 +28,11 @@ public class Fragment1 extends Fragment {
     private ReportListener reportListener;
     private int spanCount;
 
+    private static int SPAN_COUNT_PORTRAIT = 3;
+    private static int SPAN_COUNT_LANDSCAPE = 4;
+
+    static final String SIZE = "SIZE";
+
     public Fragment1() {
         super();
         adapter = new MyDataAdapter(DataSource.getInstance().getData());
@@ -53,16 +58,6 @@ public class Fragment1 extends Fragment {
     MyDataAdapter getAdapter() {
         return adapter;
     }
-//
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        if (savedInstanceState != null) {
-//            int size = savedInstanceState.getInt("SIZE");
-//            DataSource.getInstance().setSize(size);
-//            adapter.notifyDataSetChanged();
-//        }
-//    }
 
     @Nullable
     @Override
@@ -75,9 +70,9 @@ public class Fragment1 extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-            spanCount = 3;
+            spanCount = SPAN_COUNT_LANDSCAPE;
         else
-            spanCount = 4;
+            spanCount = SPAN_COUNT_PORTRAIT;
 
         recyclerView = view.findViewById(R.id.my_recyclerview);
         layoutManager = new GridLayoutManager(getActivity(), spanCount);
@@ -87,7 +82,6 @@ public class Fragment1 extends Fragment {
         addElemBtn = view.findViewById(R.id.btn_add_elem);
         addElemBtn.setOnClickListener(v -> {
             DataSource.getInstance().addElem();
-            Log.d("app", DataSource.getInstance().getData().toString());
             adapter.notifyItemInserted(adapter.getItemCount() - 1);
         });
     }
@@ -105,16 +99,16 @@ public class Fragment1 extends Fragment {
         super.onConfigurationChanged(newConfig);
 
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            changeSpanCount(4);
+            changeSpanCount(SPAN_COUNT_LANDSCAPE);
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
-            changeSpanCount(3);
+            changeSpanCount(SPAN_COUNT_PORTRAIT);
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putInt("SIZE", adapter.mData.size());
-    }
+//    @Override
+//    public void onSaveInstanceState(@NonNull Bundle outState) {
+//        super.onSaveInstanceState(outState);
+//        outState.putInt(Fragment1.SIZE, adapter.mData.size());
+//    }
 
     @Override
     public void onDetach() {

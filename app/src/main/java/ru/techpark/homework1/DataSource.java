@@ -10,9 +10,11 @@ class DataSource {
 
     private static DataSource sInstance;
 
+    private static final int defaultSize = 100;
+
     private DataSource() {
         mData = new ArrayList<>();
-        setSize(100);
+        setSize(defaultSize);
     }
 
     List<MyData> getData() {
